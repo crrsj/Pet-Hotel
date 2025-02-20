@@ -4,6 +4,7 @@ import br.com.pet.entity.Owner;
 import br.com.pet.entity.Pet;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,7 +13,9 @@ import java.util.List;
 public class OwnerResponse {
 
     private String dateRegister = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+    @NotBlank(message = "cannot be blank !")
     private String name;
+    @NotBlank(message = "cannot be blank !")
     private String phone;
     private List<Pet> pets;
 

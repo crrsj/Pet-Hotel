@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class PetController {
     @ApiResponse(responseCode = "201",description = " sucesso",content = {
             @Content(mediaType = "application.json",schema = @Schema(implementation = ResponseEntity.class))
     })
-    public ResponseEntity<PetDto>registerPet(@RequestBody PetDto petDto, @PathVariable Long ownerId){
+    public ResponseEntity<PetDto>registerPet(@RequestBody @Valid PetDto petDto, @PathVariable Long ownerId){
         var register = petService.registerPet(petDto,ownerId);
         var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(register.getId()).toUri();
@@ -72,7 +73,7 @@ public class PetController {
     @ApiResponse(responseCode = "200",description = " sucesso",content = {
             @Content(mediaType = "application.json",schema = @Schema(implementation = ResponseEntity.class))
     })
-    public ResponseEntity<UpdatePets>updatePet(@RequestBody UpdatePets updatePets,@PathVariable Long id){
+    public ResponseEntity<UpdatePets>updatePet(@RequestBody @Valid UpdatePets updatePets,@PathVariable Long id){
         var update = petService.updatePet(updatePets,id);
         return ResponseEntity.ok(new UpdatePets(update));
     }

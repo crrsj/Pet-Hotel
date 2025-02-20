@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class OwnerController {
     @ApiResponse(responseCode = "201",description = " sucesso",content = {
             @Content(mediaType = "application.json",schema = @Schema(implementation = ResponseEntity.class))
     })
-    public ResponseEntity<OwnerResponse>registerOwner(@RequestBody OwnerResponse ownerResponse){
+    public ResponseEntity<OwnerResponse>registerOwner(@RequestBody @Valid OwnerResponse ownerResponse){
         var register = ownerService.RegisterOwner(ownerResponse);
         var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(register.getId()).toUri();
@@ -76,7 +77,7 @@ public class OwnerController {
     @ApiResponse(responseCode = "200",description = " sucesso",content = {
             @Content(mediaType = "application.json",schema = @Schema(implementation = ResponseEntity.class))
     })
-    public ResponseEntity<UpdateOwner>updateOwner(@RequestBody UpdateOwner updateOwner,@PathVariable Long id){
+    public ResponseEntity<UpdateOwner>updateOwner(@RequestBody @Valid UpdateOwner updateOwner,@PathVariable Long id){
         var update = ownerService.updateOwner(updateOwner,id);
         return ResponseEntity.ok().body(new UpdateOwner(update));
     }
